@@ -13,6 +13,8 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.nio.charset.Charset;
@@ -28,6 +30,9 @@ public class MessageResource {
         this.producer = producer;
         this.consumerCfg = consumerCfg;
     }
+
+    @Context
+    HttpHeaders httpHeaders;
 
     @POST
     @Timed
@@ -46,6 +51,9 @@ public class MessageResource {
             return Response.status(400)
                     .entity(errors)
                     .build();
+
+        String platform = httpHeaders.getRequestHeader("x-client-platform").get(0);
+        System.out.println("====================="+platform+"====================");
 
         Charset charset = Charset.forName("utf-8");
         for (int i = 0; i < messages.size(); i++) {
