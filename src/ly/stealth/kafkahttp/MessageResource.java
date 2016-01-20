@@ -34,10 +34,6 @@ public class MessageResource {
         this.consumerCfg = consumerCfg;
     }
 
-    @Context
-    HttpHeaders httpHeaders;
-
-
     @POST
     @Timed
     public Response produce(
@@ -73,7 +69,10 @@ public class MessageResource {
     String packetname = "";
     String packetchannel = "";
 
+    @Context
+    HttpHeaders httpHeaders;
     private String combJson(String message) {
+        System.out.println("===================="+httpHeaders);
         System.out.println("===================="+httpHeaders.getRequestHeader("accept-language"));
         System.out.println("===================="+httpHeaders.getRequestHeader("accept-language").size());
         if (httpHeaders.getRequestHeader("accept-language")!=null){
