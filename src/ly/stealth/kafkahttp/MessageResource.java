@@ -72,6 +72,7 @@ public class MessageResource {
     @Context
     HttpHeaders httpHeaders;
     private String combJson(String message) {
+        System.out.println("====================hi==================");
         System.out.println("===================="+httpHeaders);
         System.out.println("===================="+httpHeaders.getRequestHeader("accept-language"));
         System.out.println("===================="+httpHeaders.getRequestHeader("accept-language").size());
