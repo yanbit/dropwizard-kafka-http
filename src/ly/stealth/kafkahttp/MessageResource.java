@@ -74,19 +74,19 @@ public class MessageResource {
     String packetchannel = "";
 
     private String combJson(String message) {
-        if (httpHeaders.getRequestHeader("accept-language").size()!=0){
+        if (httpHeaders.getRequestHeader("accept-language")!=null){
             language = httpHeaders.getRequestHeader("accept-language").get(0);
         }
-        if (httpHeaders.getRequestHeader("x-client-platform").size()!=0){
+        if (httpHeaders.getRequestHeader("x-client-platform")!=null){
             platform = httpHeaders.getRequestHeader("x-client-platform").get(0);
         }
-        if (httpHeaders.getRequestHeader("x-client-version").size()!=0){
+        if (httpHeaders.getRequestHeader("x-client-version")!=null){
             version = httpHeaders.getRequestHeader("x-client-version").get(0);
         }
-        if (httpHeaders.getRequestHeader("x-client-packetname").size()!=0){
+        if (httpHeaders.getRequestHeader("x-client-packetname")!=null){
             packetname = httpHeaders.getRequestHeader("x-client-packetname").get(0);
         }
-        if (httpHeaders.getRequestHeader("x-client-packetchannel").size()!=0){
+        if (httpHeaders.getRequestHeader("x-client-packetchannel")!=null){
             packetchannel = httpHeaders.getRequestHeader("x-client-packetchannel").get(0);
         }
         JSONObject json = null;
