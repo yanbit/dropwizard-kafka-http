@@ -11,6 +11,9 @@ import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.message.MessageAndMetadata;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -34,6 +37,7 @@ public class MessageResource {
     @Context
     HttpHeaders httpHeaders;
 
+
     @POST
     @Timed
     public Response produce(
@@ -52,17 +56,52 @@ public class MessageResource {
                     .entity(errors)
                     .build();
 
-        String platform = httpHeaders.getRequestHeader("x-client-platform").get(0);
-        System.out.println("====================="+platform+"====================");
-
         Charset charset = Charset.forName("utf-8");
         for (int i = 0; i < messages.size(); i++) {
             String key = keys.isEmpty() ? null : keys.get(i);
-            String message = messages.get(i);
+            String message = combJson(messages.get(i));
             producer.send(new ProducerRecord(topic, key != null ? key.getBytes(charset) : null, message.getBytes(charset)));
         }
 
         return Response.ok().build();
+    }
+
+    private JSONParser parser=new JSONParser();
+    String language = "";
+    String platform = "";
+    String version = "";
+    String packetname = "";
+    String packetchannel = "";
+
+    private String combJson(String message) {
+        if (httpHeaders.getRequestHeader("accept-language").size()!=0){
+            language = httpHeaders.getRequestHeader("accept-language").get(0);
+        }
+        if (httpHeaders.getRequestHeader("x-client-platform").size()!=0){
+            platform = httpHeaders.getRequestHeader("x-client-platform").get(0);
+        }
+        if (httpHeaders.getRequestHeader("x-client-version").size()!=0){
+            version = httpHeaders.getRequestHeader("x-client-version").get(0);
+        }
+        if (httpHeaders.getRequestHeader("x-client-packetname").size()!=0){
+            packetname = httpHeaders.getRequestHeader("x-client-packetname").get(0);
+        }
+        if (httpHeaders.getRequestHeader("x-client-packetchannel").size()!=0){
+            packetchannel = httpHeaders.getRequestHeader("x-client-packetchannel").get(0);
+        }
+        JSONObject json = null;
+        try {
+            json= (JSONObject) parser.parse(message);
+            json.put("accept-language",language);
+            json.put("x-client-platform",platform);
+            json.put("x-client-version",version);
+            json.put("x-client-packetname",packetname);
+            json.put("x-client-packetchannel",packetchannel);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.out.println("ERROR Message:"+message);
+        }
+        return json.toJSONString();
     }
 
     @GET
