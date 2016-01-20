@@ -74,6 +74,8 @@ public class MessageResource {
     String packetchannel = "";
 
     private String combJson(String message) {
+        System.out.println("===================="+httpHeaders.getRequestHeader("accept-language"));
+        System.out.println("===================="+httpHeaders.getRequestHeader("accept-language").size());
         if (httpHeaders.getRequestHeader("accept-language")!=null){
             language = httpHeaders.getRequestHeader("accept-language").get(0);
         }
