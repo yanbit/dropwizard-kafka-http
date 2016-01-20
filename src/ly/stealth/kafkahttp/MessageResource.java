@@ -75,7 +75,6 @@ public class MessageResource {
         System.out.println("====================hi==================");
         System.out.println("===================="+httpHeaders);
         System.out.println("===================="+httpHeaders.getRequestHeader("accept-language"));
-        System.out.println("===================="+httpHeaders.getRequestHeader("accept-language").size());
         if (httpHeaders.getRequestHeader("accept-language")!=null){
             language = httpHeaders.getRequestHeader("accept-language").get(0);
         }
