@@ -99,7 +99,7 @@ public class MessageResource {
             json.put("x-client-packetchannel",packetchannel);
         } catch (ParseException e) {
             e.printStackTrace();
-            System.out.println("ERROR Message:"+message);
+            System.out.println("======================ERROR Message====================== :"+message);
         }
         return json.toJSONString();
     }
