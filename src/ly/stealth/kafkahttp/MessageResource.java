@@ -63,18 +63,15 @@ public class MessageResource {
     }
 
     private JSONParser parser=new JSONParser();
-    String language = "";
-    String platform = "";
-    String version = "";
-    String packetname = "";
-    String packetchannel = "";
 
     @Context
     HttpHeaders httpHeaders;
     private String combJson(String message) {
-        System.out.println("====================hi==================");
-        System.out.println("===================="+httpHeaders);
-        System.out.println("===================="+httpHeaders.getRequestHeader("accept-language"));
+        String language = "";
+        String platform = "";
+        String version = "";
+        String packetname = "";
+        String packetchannel = "";
         if (httpHeaders.getRequestHeader("accept-language")!=null){
             language = httpHeaders.getRequestHeader("accept-language").get(0);
         }
