@@ -90,7 +90,6 @@ public class MessageResource {
         JSONObject json = null;
         try {
             json= (JSONObject) parser.parse(message);
-            System.out.println("======================Info Json Message====================== :"+json);
             json.put("accept-language",language);
             json.put("x-client-platform",platform);
             json.put("x-client-version",version);
